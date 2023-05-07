@@ -1,7 +1,10 @@
 class make_html_table{
-	
+
+	//tablica po zapytaniu z bazy
 	array_of_objects = undefined;
+	//id w który wstawiamy tablicę HTML
 	innerHTML_element_id = undefined;
+	//schemat kluczy do wyświetlenia z polami
 	/*
 	[
 		{
@@ -18,6 +21,7 @@ class make_html_table{
 	]
 	*/
 	keys_to_show = new Array();
+	//schemat tablicy z dodatkowymi polami do dodana do tablicy
 	/*
 	{
 		\'session_name\':
@@ -58,17 +62,22 @@ class make_html_table{
 	};
 	*/
 	add_td_by_key = undefined;
-	
+	//tablica pomocna przy sortowaniu, czyli kilkukrotnym kliknięciu w nagłówek
 	key_to_sort_by = new Object();
-	
+	//zmienna sterująca do robienia wiersza nagłówków
 	make_th_row = true;
+	//oddzielny wiersz z nagłówkami
 	th_row = '';
-	
+	/*konstruktor z najważniejszymi zmiennymi. Bez sprawdzania.
+	Zmienna są dostępne pubicznie a więc powinny być sprawdzane tam gdzie się ich używa, a więc w funkcjach.
+	Po co je tutaj sprwdzać skoro można je ustawić publicznie*/
 	constructor(ARRAY_OF_OBJECTS, INNERHTML_ELEMENT_ID, KEYS_TO_SHOW ){
 		this.array_of_objects = ARRAY_OF_OBJECTS;
 		this.innerHTML_element_id = INNERHTML_ELEMENT_ID;
 		this.keys_to_show = KEYS_TO_SHOW;
 	}
+	/*Główna funkcja. Pobiera wiersz i wywołuje funkcję robiącą wiersz.
+	Po jednym wywołaniu robienia wiersza zmienna robiąca wiersz nagłówków zosaje wyłączona.*/
 	make_table(TABLE_ATRIBUTES ){
 		let table_properties = '';
 		let td_rows = '';
@@ -88,6 +97,9 @@ class make_html_table{
 		}
 		return this.th_row || td_rows?'<table '+table_properties+'>'+this.th_row+td_rows+'</table>':'';
 	}
+	/*funkcja robiąca wiersz a więc zwracająca wiersz w formie <tr></tr>
+	Funkcja ma tylka za zadanie sprawdzenie kluczy i wywołanie formatowania komórek również dodatkowych
+	Ponieważ wywołuje się dodatkowe komórki to zwykłe komórki tez się robi w funkcji formatującej dodatkowe komórki*/
 	make_row(ROW ){
 		let row_of_td = '';
 		if(this.keys_to_show && this.keys_to_show.constructor === Array ){
