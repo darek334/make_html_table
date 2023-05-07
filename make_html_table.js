@@ -1,6 +1,8 @@
 class make_html_table{
 
-	//tablica po zapytaniu z bazy
+	/*tablica po zapytaniu z bazy json np
+	{'key1': 'value1'}
+	*/
 	array_of_objects = undefined;
 	//id w który wstawiamy tablicę HTML
 	innerHTML_element_id = undefined;
@@ -8,11 +10,13 @@ class make_html_table{
 	/*
 	[
 		{
-			\'session_name\':{
-				\'th_caption\': \'Session Name\',
+			\'key1\':{
+				\'th_caption\': \'Nagłówek th\',
+				//właściwości znacznika th
 				\'th\': {
 					\'class\': \'session_manager_th\'
 				},
+				//właściwości znacznika td
 				\'td\': {
 					\'class\' : \'session_manager_td\'
 				}
@@ -24,10 +28,12 @@ class make_html_table{
 	//schemat tablicy z dodatkowymi polami do dodana do tablicy
 	/*
 	{
-		\'session_name\':
+		\'key1\':
 			[
 				{
+					//pierwsze pole html do dodania poprzez klucz1
 					\'checkbox\' :{
+						//pozycja kolumny false = po lewej
 						\'position\': false,
 						\'th_caption\': \'\',
 						\'th\': {
@@ -36,6 +42,7 @@ class make_html_table{
 						\'td\': {
 							\'class\': \'session_manager_td\'
 						},
+						//właściwości pola
 						\'properties\': {
 							\'name\' : \'session_name\',
 							//a=session_name, b=ROW[session_name], c=value
@@ -44,6 +51,7 @@ class make_html_table{
 					}
 				},
 				{
+					//bez pola tylko wartość
 					\'insert\' :{
 						\'th_caption\': \'Sessions\',
 						\'position\': false,
