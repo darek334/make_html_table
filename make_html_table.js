@@ -1,22 +1,15 @@
 class make_html_table{
-
-	/*tablica po zapytaniu z bazy json np
-	{'key1': 'value1'}
-	*/
+	
 	array_of_objects = undefined;
-	//id w który wstawiamy tablicę HTML
 	innerHTML_element_id = undefined;
-	//schemat kluczy do wyświetlenia z polami
 	/*
 	[
 		{
-			\'key1\':{
-				\'th_caption\': \'Nagłówek th\',
-				//właściwości znacznika th
+			\'session_name\':{
+				\'th_caption\': \'Session Name\',
 				\'th\': {
 					\'class\': \'session_manager_th\'
 				},
-				//właściwości znacznika td
 				\'td\': {
 					\'class\' : \'session_manager_td\'
 				}
@@ -25,15 +18,12 @@ class make_html_table{
 	]
 	*/
 	keys_to_show = new Array();
-	//schemat tablicy z dodatkowymi polami do dodana do tablicy
 	/*
 	{
-		\'key1\':
+		\'session_name\':
 			[
 				{
-					//pierwsze pole html do dodania poprzez klucz1
 					\'checkbox\' :{
-						//pozycja kolumny false = po lewej
 						\'position\': false,
 						\'th_caption\': \'\',
 						\'th\': {
@@ -42,7 +32,6 @@ class make_html_table{
 						\'td\': {
 							\'class\': \'session_manager_td\'
 						},
-						//właściwości pola
 						\'properties\': {
 							\'name\' : \'session_name\',
 							//a=session_name, b=ROW[session_name], c=value
@@ -51,7 +40,6 @@ class make_html_table{
 					}
 				},
 				{
-					//bez pola tylko wartość
 					\'insert\' :{
 						\'th_caption\': \'Sessions\',
 						\'position\': false,
@@ -70,22 +58,17 @@ class make_html_table{
 	};
 	*/
 	add_td_by_key = undefined;
-	//tablica pomocna przy sortowaniu, czyli kilkukrotnym kliknięciu w nagłówek
+	
 	key_to_sort_by = new Object();
-	//zmienna sterująca do robienia wiersza nagłówków
+	
 	make_th_row = true;
-	//oddzielny wiersz z nagłówkami
 	th_row = '';
-	/*konstruktor z najważniejszymi zmiennymi. Bez sprawdzania.
-	Zmienna są dostępne pubicznie a więc powinny być sprawdzane tam gdzie się ich używa, a więc w funkcjach.
-	Po co je tutaj sprwdzać skoro można je ustawić publicznie*/
+	
 	constructor(ARRAY_OF_OBJECTS, INNERHTML_ELEMENT_ID, KEYS_TO_SHOW ){
 		this.array_of_objects = ARRAY_OF_OBJECTS;
 		this.innerHTML_element_id = INNERHTML_ELEMENT_ID;
 		this.keys_to_show = KEYS_TO_SHOW;
 	}
-	/*Główna funkcja. Pobiera wiersz i wywołuje funkcję robiącą wiersz.
-	Po jednym wywołaniu robienia wiersza zmienna robiąca wiersz nagłówków zosaje wyłączona.*/
 	make_table(TABLE_ATRIBUTES ){
 		let table_properties = '';
 		let td_rows = '';
@@ -105,9 +88,6 @@ class make_html_table{
 		}
 		return this.th_row || td_rows?'<table '+table_properties+'>'+this.th_row+td_rows+'</table>':'';
 	}
-	/*funkcja robiąca wiersz a więc zwracająca wiersz w formie <tr></tr>
-	Funkcja ma tylka za zadanie sprawdzenie kluczy i wywołanie formatowania komórek również dodatkowych
-	Ponieważ wywołuje się dodatkowe komórki to zwykłe komórki tez się robi w funkcji formatującej dodatkowe komórki*/
 	make_row(ROW ){
 		let row_of_td = '';
 		if(this.keys_to_show && this.keys_to_show.constructor === Array ){
@@ -133,7 +113,8 @@ class make_html_table{
 			let th_properties = '';
 			if(typeof KEY_TO_SHOW_PROPERTIES == 'object' ){
 				for(let th_property in KEY_TO_SHOW_PROPERTIES['th' ] ){
-					th_properties += th_property+'="'+(typeof KEY_TO_SHOW_PROPERTIES['th' ][th_property ] == 'function'?KEY_TO_SHOW_PROPERTIES['th' ][th_property ](KEY, VALUE ):KEY_TO_SHOW_PROPERTIES['th' ][th_property ] )+'" ';
+					let value_of_property = typeof KEY_TO_SHOW_PROPERTIES['th' ][th_property ] == 'function'?KEY_TO_SHOW_PROPERTIES['th' ][th_property ](KEY, VALUE, th_property ):KEY_TO_SHOW_PROPERTIES['th' ][th_property ];
+					th_properties += typeof KEY_TO_SHOW_PROPERTIES['th' ][th_property ] == 'function'?value_of_property+' ':th_property+'="'+value_of_property+'" ';
 				}
 				
 			}
@@ -143,7 +124,8 @@ class make_html_table{
 		let td_properties = '';
 		if(typeof KEY_TO_SHOW_PROPERTIES == 'object' && KEY_TO_SHOW_PROPERTIES['td' ] ){
 			for(let td_property in KEY_TO_SHOW_PROPERTIES['td' ] ){
-				td_properties += td_property+'="'+(typeof KEY_TO_SHOW_PROPERTIES['td' ][td_property ] == 'function'?KEY_TO_SHOW_PROPERTIES['td' ][td_property ](KEY, VALUE ):KEY_TO_SHOW_PROPERTIES['td' ][td_property ] )+'" ';
+				let value_of_property = typeof KEY_TO_SHOW_PROPERTIES['td' ][td_property ] == 'function'?KEY_TO_SHOW_PROPERTIES['td' ][td_property ](KEY, VALUE, td_property ):KEY_TO_SHOW_PROPERTIES['td' ][td_property ];
+				td_properties += typeof KEY_TO_SHOW_PROPERTIES['td' ][td_property ] == 'function'?value_of_property+' ':td_property+'="'+value_of_property+'" ';
 			}
 		}
 		sum_of_td = '<td '+td_properties+'>'+VALUE+'</td>';
@@ -173,15 +155,21 @@ class make_html_table{
 									}
 								}
 							}
-							/*th properties*/
+							/*th properties tutaj skonczone*/
 							if(this.make_th_row ){
 								for(let tag_to_add_th_propertie in this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ] ){
-									tag_to_add_th_properties += tag_to_add_th_propertie+'="'+(typeof this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ][tag_to_add_th_propertie ] == 'function'?this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ][tag_to_add_th_propertie ](KEY, VALUE ):this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ][tag_to_add_th_propertie ] )+'" ';
+									let value_of_th_property = typeof this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ][tag_to_add_th_propertie ] == 'function'?this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ][tag_to_add_th_propertie ](KEY, VALUE, tag_to_add_th_propertie ):this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ][tag_to_add_th_propertie ];
+									tag_to_add_th_properties += typeof this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['th' ][tag_to_add_th_propertie ] == 'function'?
+									value_of_th_property+' ':
+									tag_to_add_th_propertie+'="'+value_of_th_property+'" ';
 								}
 							}
 							/*td properties*/
 							for(let tag_to_add_td_propertie in this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ] ){
-								tag_to_add_td_properties += tag_to_add_td_propertie+'="'+(typeof this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ][tag_to_add_td_propertie ] == 'function'?this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ][tag_to_add_td_propertie ](KEY, VALUE ):this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ][tag_to_add_td_propertie ] )+'" ';
+								let value_of_td_property = typeof this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ][tag_to_add_td_propertie ] == 'function'?this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ][tag_to_add_td_propertie ](KEY, VALUE, tag_to_add_td_propertie ):this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ][tag_to_add_td_propertie ];
+								tag_to_add_td_properties += typeof this.add_td_by_key[KEY ][tag_to_add_count ][tag_to_add ]['td' ][tag_to_add_td_propertie ] == 'function'?
+								value_of_td_property+' ':
+								tag_to_add_td_propertie+'="'+value_of_td_property+'" ';
 							}
 						}
 						/*dodawanie th i td po to żeby zgadzały się kolumny*/
