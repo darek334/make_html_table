@@ -173,7 +173,7 @@ class make_html_table{
 		else{
 			console.warn('Nieznaleziono takiej definicji TAGA' );
 		}
-		return '';
+		return TAG_PROPERTIES;
 	}
 	sort(KEY_TO_SORT_BY ){
 		if(this.ARRAY_OF_OBJECTS && this.ARRAY_OF_OBJECTS.constructor === Array ){
