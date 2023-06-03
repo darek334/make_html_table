@@ -2,7 +2,7 @@ class make_html_table{
 	//tablica z zapytania php do bazy select
 	ARRAY_OF_OBJECTS = undefined;
 	/*tablica sterująca które kolumny mają być przetworzone, głównym kluczem jest klucz z tablicy ARRAY_OF_OBJECTS
-	w tej tablicy są również pola pokazujące jak należy formatować komurki, mogą to być też funkcje
+	w tej tablicy są również pola pokazujące jak należy formatować komórki, mogą to być też funkcje
 	[
 		{
 			\'session_name\':{
