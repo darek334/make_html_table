@@ -1,7 +1,12 @@
 class make_html_table{
-	//tablica z zapytania php do bazy select
+	/*
+	Element dla użytkownika
+	tablica z zapytania php do bazy select
+	*/
 	ARRAY_OF_OBJECTS = undefined;
-	/*tablica sterująca które kolumny mają być przetworzone, głównym kluczem jest klucz z tablicy ARRAY_OF_OBJECTS
+	/*
+	Element dla użytkownika
+	tablica sterująca które kolumny mają być przetworzone, głównym kluczem jest klucz z tablicy ARRAY_OF_OBJECTS
 	w tej tablicy są również pola pokazujące jak należy formatować komórki, mogą to być też funkcje
 	[
 		{
@@ -19,6 +24,7 @@ class make_html_table{
 	*/
 	KEYS_TO_SHOW = undefined;
 	/*
+	Element dla użytkownika
 	Tablica nakazująca wstawienie jakiegoś znacznika HTML np <input>
 	wstawiania odbywa się po kluczu. Może być kilka znaczników
 	{
@@ -47,13 +53,13 @@ class make_html_table{
 	*/
 	INSERT = undefined;
 	
-	//tablica zapisująca osatni sortujący klucz
+	//Nie istotny dla użytkownika, tablica zapisująca osatni sortujący klucz
 	key_to_sort_by = new Object();
 	
-	//zmienna sterująca robiąca raz th przy jednym przebiegu wiersza
+	//Nie istotny dla użytkownika, zmienna sterująca robiąca raz th przy jednym przebiegu wiersza
 	make_th_row = true;
 
-	//wiersz th raczej globalny choć można go tworzyć lokalnie w funkcji robiącej wiersz tr
+	//Nie istotny dla użytkownika, wiersz th raczej globalny choć można go tworzyć lokalnie w funkcji robiącej wiersz tr
 	th_row = '';
 	
 	constructor(ARRAY_OF_OBJECTS ){
