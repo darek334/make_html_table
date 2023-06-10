@@ -43,7 +43,7 @@ class make_html_table{
 	KEYS_TO_SHOW = undefined;
 	/*
 	Element dla użytkownika
-	Tablica nakazująca wstawienie jakiegoś znacznika HTML np <input>
+	Tablica nakazująca wstawienie jakiegoś znacznika HTML w komórkę td np <input>
 	wstawiania odbywa się po kluczu. Może być kilka znaczników
 	{
 		\'select\':
