@@ -30,8 +30,11 @@ class make_html_table{
 				\'td\': {
 					\'class\' : \'jakaś tam nazwa\',
 					\'disabled\' : function(a, b ){
-						return a[\'session_name\' ] == \''.MSSH::$SESSION_NAME.'\'?\'disabled\':undefined;
-					},
+						//w tym przypadku sprawdzana jest wartość w danym wierszu,
+						//wartość klucza kolumna 1 jest porównywana ze zmienną MSSH::$SESSION_NAME,
+						//jeśli te wartości są równe to wstawiany jest parametr disabled a jak nie to undefined co w funkcji make_row oznacza nie wstawianie, brak wstawienia
+						return a[\'kolumna 1\' ] == \''.MSSH::$SESSION_NAME.'\'?\'disabled\':undefined;
+					}
 				}
 			}
 		},
