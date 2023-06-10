@@ -6,17 +6,32 @@ class make_html_table{
 	ARRAY_OF_OBJECTS = undefined;
 	/*
 	Element dla użytkownika
-	tablica sterująca które kolumny mają być przetworzone, głównym kluczem jest klucz z tablicy ARRAY_OF_OBJECTS
-	w tej tablicy są również pola pokazujące jak należy formatować komórki, mogą to być też funkcje
+	tablica sterująca które kolumny mają być przetworzone,
+	należy zachować ten format jak niżej, klucze tworzą kolumny,
+	dalej jest zagnieżdzone formatowanie komórek jak widać jest znacznik nagłówka TH oraz reszta komórek TD
+	można tam umieścić dowolny parametr jak class, color, nawet zdarzenie onclick, wszystko, nawet nie istniejące, po prosu będą dodane, ale nie obsłużone przez przeglądarkę, nie ma żadnych ograniczeń !
+	Wartościami moga być funkcje, które przy przerabianiu w funkcji make_row dostają jako argument cały wiersz, klucz i dany parametr np color, ale można w tej tablicy cos innego wpisać np inną nazwę kolumny, albo coś innego żeby wyświetlenie było zalezne od tej funkcji
 	[
 		{
-			\'session_name\':{
-				\'th_caption\': \'Session Name\',
+			\'kolumna z select 1\':{
+				\'th_caption\': \'Kolumna 1\',
 				\'th\': {
-					\'class\': \'session_manager_th\'
+					\'class\': \'jakiaś tam nazwa\'
 				},
 				\'td\': {
-					\'class\' : \'session_manager_td\'
+					\'class\' : \'jakaś tam nazwa\'
+				}
+			},
+			\'kolumna z select 2\':{
+				\'th_caption\': \'Kolumna 2\',
+				\'th\': {
+					\'class\': \'jakaś tam nazwa\'
+				},
+				\'td\': {
+					\'class\' : \'jakaś tam nazwa\',
+					\'disabled\' : function(a, b ){
+						return a[\'session_name\' ] == \''.MSSH::$SESSION_NAME.'\'?\'disabled\':undefined;
+					},
 				}
 			}
 		},
