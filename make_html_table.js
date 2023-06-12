@@ -71,13 +71,13 @@ class make_html_table{
 	*/
 	INSERT = undefined;
 	
-	//Nie istotny dla użytkownika, tablica zapisująca osatni sortujący klucz
+	//Nieistotny dla użytkownika, tablica zapisująca osatni sortujący klucz
 	key_to_sort_by = new Object();
 	
-	//Nie istotny dla użytkownika, zmienna sterująca robiąca raz th przy jednym przebiegu wiersza
+	//Nieistotny dla użytkownika, zmienna sterująca robiąca raz th przy jednym przebiegu wiersza
 	make_th_row = true;
 
-	//Nie istotny dla użytkownika, wiersz th raczej globalny choć można go tworzyć lokalnie w funkcji robiącej wiersz tr
+	//Nieistotny dla użytkownika, wiersz th raczej globalny choć można go tworzyć lokalnie w funkcji robiącej wiersz tr
 	th_row = '';
 	
 	constructor(ARRAY_OF_OBJECTS ){
@@ -88,12 +88,12 @@ class make_html_table{
 		let td_rows = '';
 		//sprawdza zgodność ARRAY_OF_OBJECTS
 		if(this.ARRAY_OF_OBJECTS && this.ARRAY_OF_OBJECTS.constructor === Array ){
-			//robię wiersze tabeli
+			//tworzy wiersze tabeli
 			for(let row_count = 0; row_count < this.ARRAY_OF_OBJECTS.length; row_count++){
 				td_rows += this.make_row(this.ARRAY_OF_OBJECTS[row_count ] );
 				this.make_th_row = false;
 			}
-			//dodaję atrybuty tabeli
+			//atrybuty tabeli
 			if(td_rows && typeof TABLE_ATRIBUTES == 'object' ){
 				for(let table_property in TABLE_ATRIBUTES ){
 					if(TABLE_ATRIBUTES.hasOwnProperty(table_property ) ){
@@ -118,14 +118,14 @@ class make_html_table{
 			//Czyta klucze kolejno
 			for(let keys_count = 0; keys_count < this.KEYS_TO_SHOW.length; keys_count++ ){
 				for(let key_to_show in this.KEYS_TO_SHOW[keys_count ] ){
-					/*Robi komurkę i inserty ewentualnie*/
+					/*tworzy komórkę i dodatkowe znaczniki*/
 					if(ROW[key_to_show ] !== undefined ){
-						/*Robi Inserta*/
-						//tu można tworzyć inserts
+						/*tworzy Inserta*/
+						//Przetwarza zmienną INSERT w celu dodania znaczników w komórce
 						if(this.INSERT && this.INSERT[key_to_show ] !== undefined && this.INSERT[key_to_show ].constructor === Array ){
-							//Inserty są w tablicy
+							//Przetwarza zmienną INSERT, jest to tablica wierszy czyli obiektów
 							for(let tags_count = 0; tags_count < this.INSERT[key_to_show ].length; tags_count++ ){
-								//Insert
+								//Wiersz
 								if(typeof this.INSERT[key_to_show ][tags_count ] == 'object' ){
 									//jeden tag
 									for(let tag_name in this.INSERT[key_to_show ][tags_count ] ){
@@ -181,7 +181,7 @@ class make_html_table{
 						row_of_td += '<td '+td_properties+'>'+(inserts?inserts:ROW[key_to_show ] )+'</td>';
 						inserts = '';
 					}
-					//koniec robienia komurki bo klucz był w wierszu
+					//koniec robienia komórki bo klucz był w wierszu
 				}
 			}
 		}
